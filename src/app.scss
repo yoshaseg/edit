@@ -1,0 +1,14 @@
+body {
+  background: #000;
+  display: flex;
+  .text {
+    color: white;
+  }
+}
+
+.wrapper {
+  .text{
+    color: green;
+  }
+}
+
