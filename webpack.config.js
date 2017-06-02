@@ -11,14 +11,10 @@ const PATHS = {
 
 const common = {
     //context: __dirname + '/src',
-    entry: {
-        client: './client.js'
-    },
-    output: {
-        path: PATHS.build,
-        filename: 'main.js',
-    },
-
+    entry: [
+        'webpack-dev-server/client?http://localhost:3000',
+        './client.js'
+    ],
     module: {
         loaders: [
             {
@@ -47,6 +43,11 @@ const common = {
 // npm startを実行した時の設定
 if (TARGET === 'start' || !TARGET) {
     module.exports = merge(common, {
+        output: {
+            path: PATHS.build,
+            filename: 'main.js',
+        },
+
         devServer: {
             contentBase: 'public',
             historyApiFallback: true,
@@ -56,7 +57,9 @@ if (TARGET === 'start' || !TARGET) {
             //progress: true,
             stats: 'errors-only',
         },
+
         devtool: 'eval-source-map',
+
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
         ]
@@ -68,7 +71,6 @@ if (TARGET === 'build') {
     module.exports = merge(common, {
         output: {
             path: PATHS.build,
-            // publicPath: '/public/js/',
             filename: 'main.min.js'
         },
         plugins: [
@@ -83,6 +85,24 @@ if (TARGET === 'build') {
                     warnings: false
                 }
             }),
+        ]
+    });
+}
+
+// npm dev-buildを実行した時の設定
+if (TARGET === 'dev-build') {
+    module.exports = merge(common, {
+        output: {
+            path: PATHS.build,
+            filename: 'main.js'
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env': {
+                    NODE_ENV: JSON.stringify('development'),
+                }
+            }),
+            new webpack.HotModuleReplacementPlugin(),
         ]
     });
 }

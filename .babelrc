@@ -32,7 +32,8 @@
             "extensions": [
               ".css",
               ".scss"
-            ]
+            ],
+            "generateScopedName": "[hash:base64]"
           }
         ]
       ]

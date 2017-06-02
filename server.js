@@ -4,59 +4,75 @@ import ReactDomServer from 'react-dom/server';
 import {applyMiddleware, compose, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import Thunk from 'redux-thunk';
-import Html from './src/Html';
-import AppReducers from './src/reducers';
+import {match, RouterContext} from 'react-router'
+import Helmet from 'react-helmet';
 
-const app = express();
+import routes from './routes';
+import AppReducers from './src/reducers';
+import HtmlComponent from './src/Html';
+
+const application = express();
 const port = 3000;
 
-app.use('/public', express.static('build'));
+application.use('/public', express.static('build'));
 
-app.get('*', handleRender);
+application.get('*', handleRender);
+
+function safeStringify(obj) {
+    return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--')
+}
 
 function handleRender(req, res) {
+    match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
 
-    // 通常のStore定義
-    // const store = createStore(editorApp);
+        if (error) {
+            res.status(500).send(error.message)
+        } else if (redirectLocation) {
+            res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+        } else if (renderProps) {
 
-    // ActionでAjax通信はする場合は以下のようにStoreを定義する
-    const createFinalStore = () => {
-        const finalCreateStore = compose(
-            applyMiddleware(Thunk)
-        )(createStore);
-        return finalCreateStore(AppReducers);
-    };
-    const store = createFinalStore();
+            // 通常のStore定義
+            // const store = createStore(editorApp);
 
-    const html = ReactDomServer.renderToString(
-        <Provider store={store}>
-            <Html/>
-        </Provider>
-    );
+            // ActionでAjax通信はする場合は以下のようにStoreを定義する
+            const createFinalStore = () => {
+                const finalCreateStore = compose(
+                    applyMiddleware(Thunk)
+                )(createStore);
+                return finalCreateStore(AppReducers);
+            };
+            const store = createFinalStore();
 
-    const preLoadedState = store.getState();
+            const components = renderProps.components.filter(component => component.fetchData);
 
-    res.send(renderFullPage(html, preLoadedState))
+            Promise.all(components.map(component => {
+                store.dispatch(component.fetchData());
+            })).then(() => {
+                const markup = ReactDomServer.renderToString(
+                    <Provider store={store}>
+                        <RouterContext {...renderProps} />
+                    </Provider>
+                );
+
+                const preLoadedState = store.getState();
+                const htmlElement = React.createElement(HtmlComponent, {
+                    store: store,
+                    clientFile: application.get("env") === 'production' ? 'main.min.js' : 'main.js',
+                    state: `window.__PRELOADED_STATE__ = ${safeStringify(preLoadedState)}`,
+                    markup: markup
+                });
+                const html = ReactDomServer.renderToStaticMarkup(htmlElement);
+                res.write(`<!doctype html>` + html);
+                res.end();
+            }).catch(error => {
+                res.status(500).send(error.message);
+            });
+        } else {
+            res.status(404).send('Not found')
+        }
+    });
 }
 
-function renderFullPage(html, preLoadedState) {
-    return `
-    <!doctype html>
-    <html>
-      <head>
-        <title>Redux Universal Example</title>
-      </head>
-      <body>
-        <div id="root">${html}</div>
-        <script>
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preLoadedState).replace(/</g, '\\u003c')}
-        </script>
-        <script src="/public/main.min.js"></script>
-      </body>
-    </html>
-    `
-}
-
-app.listen(port, ()=> {
-    console.log("Example app listening on port 3000!");
+application.listen(port, ()=> {
+    console.log("Example application listening on port 3000!");
 });

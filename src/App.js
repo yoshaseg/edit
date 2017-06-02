@@ -1,25 +1,44 @@
-import React, {Component} from 'react'
+import React from 'react';
+import CreateClass from 'create-react-class';
+// import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+
 import styles from './app.scss';
+import HeaderNavigation from './components/HeaderNavigation';
 
-class App extends Component {
-    constructor() {
-        super();
-    }
+const App = CreateClass({
 
-    render() {
+    componentDidMount: function () {
+    },
+
+    render: function () {
+        const {children, test} = this.props;
+
         return (
-            <div>
-                <div className={styles.wrapper}>
-                    <div className={styles.text}>
-                        ssss
-                    </div>
-                </div>
+            <div className={styles.wrapper}>
+                <HeaderNavigation/>
                 <div className={styles.text}>
-                    ssss
+                    {children}
                 </div>
             </div>
-        )
+        );
     }
-}
+});
 
-export default App
+
+App.propTypes = {};
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        test: state.test,
+    }
+};
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {}
+};
+const AppContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
+
+export default AppContainer;
