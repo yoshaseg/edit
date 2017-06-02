@@ -1,29 +1,26 @@
 import React from 'react';
 import CreateClass from 'create-react-class';
-import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
+import {connect} from 'react-redux';
 
 import {fetchArticles} from '../actions';
 
 import Section from '../components/Section';
-import Trending from '../components/Trending';
 
-/**
- * Homeレイアウトコンテナ
- */
-const Home = CreateClass({
+const Category = CreateClass({
 
-    componentDidMount: function () {
-        const {dispatch} = this.props;
+    fetchData(){
+        console.log("fetchData");
+    },
 
+    componentDidMount() {
+        const {dispatch, params} = this.props;
         // 最新記事
-        dispatch(fetchArticles("latest"));
-
+        dispatch(fetchArticles(params.category_slug));
     },
 
     render() {
-        const {latestList} = this.props;
-
+        const {params, latestList} = this.props;
         return (
             <div>
                 <Helmet>
@@ -32,28 +29,24 @@ const Home = CreateClass({
                     <meta name="viewport" content="width=device-width, initial-scale=1"/>
                     <meta name="mobile-web-app-capable" content="yes"/>
                 </Helmet>
-
-                <Trending id="homeTrending" list={latestList}/>
-                <Trending id="homeTrending2" title="Most Popular" list={latestList}/>
-
-                <Section id="homeList" title="Technology" list={latestList}/>
-
+                <Section id="categoryList" title={params.category_slug} list={latestList}/>
             </div>
-        )
+        );
     }
+
 });
 
 
-Home.propTypes = {};
+Category.propTypes = {};
 
 /**
  * サーバーサイドの初期レンダリング用
  * @returns {{}}
  */
-Home.fetchData = function () {
-    console.log("Home fetchData");
-    return fetchArticles("latest");
+Category.fetchData = function () {
+    console.log("Category fetchData");
 };
+
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -67,9 +60,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     }
 };
-const HomeContainer = connect(
+const CategoryContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Home);
+)(Category);
 
-export default HomeContainer;
+export default CategoryContainer;

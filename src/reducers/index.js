@@ -2,7 +2,7 @@ import {combineReducers} from 'redux'
 import {routerReducer} from 'react-router-redux';
 
 import test from './test';
-import testList from './testList';
+import latestList from './latestList';
 
 /**
  * reducerをまとめる
@@ -10,7 +10,7 @@ import testList from './testList';
 const AppReducers = combineReducers({
     routing: routerReducer,
     test,
-    testList,
+    latestList,
 });
 
 export default AppReducers

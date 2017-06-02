@@ -91,7 +91,4 @@ body {
   font-feature-settings: "liga" on;
 }
 
-.wrapper {
-  max-width: 1000px;
-  margin: 0 auto;
-}
+@import "./common.scss";

@@ -6,6 +6,11 @@
   border-bottom: solid 1px #CCC;
   font-size: 1.4em;
   padding: 8px;
+  position: fixed;
+  margin-top: -36px;
+  width: 100%;
+  max-width: calc(1000px - 16px);
+  background: #FFF;
   a {
     color: #333;
     text-decoration: none;
@@ -16,6 +21,7 @@
   overflow: hidden;
   height: 2rem;
   border-bottom: solid 1px #CCC;
+  margin-top: 36px;
   .nav {
     padding: 8px;
     overflow: scroll;
@@ -27,9 +33,6 @@
         font-size: .9em;
         &:first-child {
           margin-left: 0;
-        }
-        &:last-child {
-          margin-right: 0;
         }
         a {
           text-decoration: none;

@@ -1,7 +1,7 @@
 import React from 'react';
 import CreateClass from 'create-react-class';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import Link from './LinkTo';
 import styles from './header-navigation.scss';
 
 /**
@@ -13,26 +13,20 @@ const HeaderNavigation = CreateClass({
         {
             let menu = [
                 <Link to="/">HOME</Link>,
-                <Link to="/foo">foo</Link>,
-                <Link to="/bar">bar</Link>,
-                <Link to="/">HOME</Link>,
-                <Link to="/foo">foo</Link>,
-                <Link to="/bar">bar</Link>,
-                <Link to="/">HOME</Link>,
-                <Link to="/foo">foo</Link>,
-                <Link to="/bar">bar</Link>,
-                <Link to="/">HOME</Link>,
-                <Link to="/foo">foo</Link>,
-                <Link to="/bar">bar</Link>,
-                <Link to="/">HOME</Link>,
-                <Link to="/foo">foo</Link>,
-                <Link to="/bar">bar</Link>
+                <Link to="/brands">Brands</Link>,
+                <Link to="/agencies">Agencies</Link>,
+                <Link to="/publishers">Publishers</Link>,
+                <Link to="/platforms">Platforms</Link>,
+                <Link to="/career">Career</Link>,
+                <Link to="/events">Events</Link>,
             ];
 
             return (
                 <div className={styles.headerNav}>
                     <div className={styles.brand}>
-                        <Link to="/">Edit</Link>
+                        <Link to="/" onClick={(e)=> {
+                            window.scrollTo(0, 0);
+                        }}>D</Link>
                     </div>
                     <div className={styles.navWrapper}>
                         <div className={styles.nav}>
