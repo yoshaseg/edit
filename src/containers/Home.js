@@ -14,10 +14,12 @@ import Trending from '../components/Trending';
 const Home = CreateClass({
 
     componentDidMount: function () {
-        const {dispatch} = this.props;
+        const {dispatch, latestList} = this.props;
 
         // 最新記事
-        dispatch(fetchArticles("latest"));
+        if (latestList.length == 0) {
+            dispatch(fetchArticles("latest"));
+        }
 
     },
 
@@ -43,16 +45,14 @@ const Home = CreateClass({
     }
 });
 
-
 Home.propTypes = {};
 
 /**
  * サーバーサイドの初期レンダリング用
  * @returns {{}}
  */
-Home.fetchData = function () {
-    console.log("Home fetchData");
-    return fetchArticles("latest");
+Home.fetchData = function (resolve) {
+    return fetchArticles("latest", resolve);
 };
 
 const mapStateToProps = (state, ownProps) => {

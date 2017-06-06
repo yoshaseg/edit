@@ -3,20 +3,16 @@ import CreateClass from 'create-react-class';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 
-import {fetchArticles} from '../actions';
-
-import Section from '../components/Section';
-
-const Category = CreateClass({
+const Article = CreateClass({
 
     componentDidMount() {
         const {dispatch, params} = this.props;
-        // 最新記事
-        dispatch(fetchArticles(params.category_slug));
+        // 記事詳細
+        // dispatch(fetchArticles(params.category_slug));
     },
 
     render() {
-        const {params, latestList} = this.props;
+        const {params} = this.props;
         return (
             <div>
                 <Helmet>
@@ -25,7 +21,6 @@ const Category = CreateClass({
                     <meta name="viewport" content="width=device-width, initial-scale=1"/>
                     <meta name="mobile-web-app-capable" content="yes"/>
                 </Helmet>
-                <Section id="categoryList" title={params.category_slug} list={latestList}/>
             </div>
         );
     }
@@ -33,14 +28,14 @@ const Category = CreateClass({
 });
 
 
-Category.propTypes = {};
+Article.propTypes = {};
 
 /**
  * サーバーサイドの初期レンダリング用
  * @returns {{}}
  */
-Category.fetchData = function () {
-    console.log("Category fetchData");
+Article.fetchData = function () {
+    console.log("Article fetchData");
     return {
         type: ""
     };
@@ -48,9 +43,7 @@ Category.fetchData = function () {
 
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-        latestList: state.latestList,
-    }
+    return {}
 };
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
@@ -59,9 +52,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     }
 };
-const CategoryContainer = connect(
+const ArticleContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Category);
+)(Article);
 
-export default CategoryContainer;
+export default ArticleContainer;

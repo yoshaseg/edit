@@ -2,18 +2,14 @@ import React from 'react';
 import CreateClass from 'create-react-class';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
+import commonStyles from './common.scss';
 import styles from './app.scss';
 import HeaderNavigation from './components/HeaderNavigation';
 
 const App = CreateClass({
 
-    componentDidMount: function () {
-    },
-
-    render: function () {
-        const {children, test} = this.props;
-
+    render() {
+        const {children} = this.props;
         return (
             <div className={styles.wrapper}>
                 <HeaderNavigation/>
@@ -29,9 +25,7 @@ const App = CreateClass({
 App.propTypes = {};
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-        test: state.test,
-    }
+    return {}
 };
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {}

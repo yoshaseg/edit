@@ -9,8 +9,8 @@ import styles from './header-navigation.scss';
  */
 const HeaderNavigation = CreateClass({
 
-        render()
-        {
+        render() {
+
             let menu = [
                 <Link to="/">HOME</Link>,
                 <Link to="/brands">Brands</Link>,

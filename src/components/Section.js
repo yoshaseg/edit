@@ -9,8 +9,8 @@ import {ArticleListShape} from '../shapes';
  * Section
  */
 const Section = CreateClass({
-    render()
-    {
+    render() {
+
         const {id, title, list} = this.props;
         let _list = [];
         for (var i = 0; i < 300; i++) {

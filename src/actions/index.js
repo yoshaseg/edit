@@ -1,15 +1,15 @@
-import request from 'superagent';
+import fetch from 'isomorphic-fetch';
 
-export function fetchArticles(category) {
-    return (dispatch) => {
+export function fetchArticles(category, resolve) {
+    return function (dispatch) {
         dispatch(fetchArticlesRequest());
-        request
-            // Todo:　開発中はファイル読み込みにする
-            .get("http://localhost:3000/demo-api/" + category + ".json")
-            .set("Content-Type", "application/json")
-            .end(function (err, res) {
-                console.log(res);
-                dispatch(fetchArticlesComplete(res.body));
+        return fetch(`http://localhost:3000/demo-api/${category}.json`)
+            .then(response => response.json())
+            .then(json => {
+                dispatch(fetchArticlesComplete(json));
+                if (resolve) {
+                    resolve();
+                }
             });
     };
 }

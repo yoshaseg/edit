@@ -12,6 +12,7 @@ import styles from './trending.scss';
 const Trending = CreateClass({
     render()
     {
+
         const {id, title, list} = this.props;
         let _list = list.map((item, idx) => {
             return (

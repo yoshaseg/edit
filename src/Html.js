@@ -5,10 +5,6 @@ import Helmet from 'react-helmet';
 
 const Html = CreateClass({
 
-    fetchData: function() {
-        console.log("Html fetchData");
-    },
-
     componentDidMount: function () {
     },
 

@@ -1,20 +1,21 @@
 import express from 'express';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
-import {applyMiddleware, compose, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import Thunk from 'redux-thunk';
 import {match, RouterContext} from 'react-router'
 import Helmet from 'react-helmet';
+import path from 'path';
 
+import configureStore from './configureStore';
 import routes from './routes';
-import AppReducers from './src/reducers';
 import HtmlComponent from './src/Html';
 
 const application = express();
 const port = 3000;
 
 application.use('/public', express.static('build'));
+// レイアウト、モジュールの情報置き場
+application.use('/demo-api', express['static'](path.join(__dirname, '/public/demo-api')));
 
 application.get('*', handleRender);
 
@@ -31,29 +32,22 @@ function handleRender(req, res) {
             res.redirect(302, redirectLocation.pathname + redirectLocation.search)
         } else if (renderProps) {
 
-            // 通常のStore定義
-            // const store = createStore(editorApp);
-
-            // ActionでAjax通信はする場合は以下のようにStoreを定義する
-            const createFinalStore = () => {
-                const finalCreateStore = compose(
-                    applyMiddleware(Thunk)
-                )(createStore);
-                return finalCreateStore(AppReducers);
-            };
-            const store = createFinalStore();
+            const store = configureStore();
 
             const components = renderProps.components.filter(component => component.fetchData);
 
-            Promise.all(components.map(component => {
-                store.dispatch(component.fetchData());
-            })).then(() => {
+            let tasks = components.map(component => {
+                return new Promise(function (resolve, reject) {
+                    store.dispatch(component.fetchData(resolve, reject));
+                });
+            });
+
+            Promise.all(tasks).then(() => {
                 const markup = ReactDomServer.renderToString(
                     <Provider store={store}>
                         <RouterContext {...renderProps} />
                     </Provider>
                 );
-
                 const preLoadedState = store.getState();
                 const htmlElement = React.createElement(HtmlComponent, {
                     store: store,

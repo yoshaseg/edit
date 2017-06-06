@@ -1,7 +1,6 @@
 var path = require('path');
 var merge = require('webpack-merge');
 var webpack = require('webpack');
-
 const TARGET = process.env.npm_lifecycle_event;
 process.env.BABEL_ENV = TARGET;
 
@@ -11,10 +10,6 @@ const PATHS = {
 
 const common = {
     //context: __dirname + '/src',
-    entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-        './client.js'
-    ],
     module: {
         loaders: [
             {
@@ -43,6 +38,10 @@ const common = {
 // npm startを実行した時の設定
 if (TARGET === 'start' || !TARGET) {
     module.exports = merge(common, {
+        entry: [
+            'webpack-dev-server/client?http://localhost:3000',
+            './client.js'
+        ],
         output: {
             path: PATHS.build,
             filename: 'main.js',
@@ -69,6 +68,9 @@ if (TARGET === 'start' || !TARGET) {
 // npm buildを実行した時の設定
 if (TARGET === 'build') {
     module.exports = merge(common, {
+        entry: [
+            './client.js'
+        ],
         output: {
             path: PATHS.build,
             filename: 'main.min.js'
@@ -79,7 +81,7 @@ if (TARGET === 'build') {
                     NODE_ENV: JSON.stringify('production'),
                 }
             }),
-            new webpack.HotModuleReplacementPlugin(),
+            // new webpack.HotModuleReplacementPlugin(),
             new webpack.optimize.UglifyJsPlugin({
                 compress: {
                     warnings: false
@@ -92,6 +94,9 @@ if (TARGET === 'build') {
 // npm dev-buildを実行した時の設定
 if (TARGET === 'dev-build') {
     module.exports = merge(common, {
+        entry: [
+            './client.js'
+        ],
         output: {
             path: PATHS.build,
             filename: 'main.js'
@@ -102,7 +107,7 @@ if (TARGET === 'dev-build') {
                     NODE_ENV: JSON.stringify('development'),
                 }
             }),
-            new webpack.HotModuleReplacementPlugin(),
+            // new webpack.HotModuleReplacementPlugin(),
         ]
     });
 }
