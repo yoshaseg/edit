@@ -10,9 +10,17 @@ import Section from '../components/Section';
 const Category = CreateClass({
 
     componentDidMount() {
+        console.log("componentDidMount");
         const {dispatch, params} = this.props;
         // 最新記事
         dispatch(fetchArticles(params.category_slug));
+    },
+
+    componentWillReceiveProps(newProps){
+        const {dispatch, params} = this.props;
+        if (newProps.params.category_slug != params.category_slug) {
+            dispatch(fetchArticles(newProps.params.category_slug));
+        }
     },
 
     render() {
@@ -37,13 +45,16 @@ Category.propTypes = {};
 
 /**
  * サーバーサイドの初期レンダリング用
- * @returns {{}}
+ *
+ * @param resolve
+ * @param reject
+ * @param ownProps
+ * @returns {*}
  */
-Category.fetchData = function () {
+Category.fetchData = function (resolve, reject, ownProps) {
+    const {params} = ownProps;
     console.log("Category fetchData");
-    return {
-        type: ""
-    };
+    return fetchArticles(params.category_slug, resolve);
 };
 
 

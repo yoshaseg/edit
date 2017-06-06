@@ -3,6 +3,7 @@ import CreateClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Link from './LinkTo';
+import Stock from './Stock';
 import {ArticleListShape} from '../shapes';
 import styles from './trending.scss';
 
@@ -12,23 +13,34 @@ import styles from './trending.scss';
 const Trending = CreateClass({
     render()
     {
-
         const {id, title, list} = this.props;
         let _list = list.map((item, idx) => {
             return (
                 <div key={id + "-" + idx}>
-                    <Link to={item.href}>{item.title}</Link>
-                    <small>
-                        {item.pubDate}
-                    </small>
+                    <time dateTime={item.pubDate}>{item.pubDate}</time>
+                    <h2><Link to={item.href}>{item.title}</Link></h2>
+                    <div style={{clear: "both"}}>
+                        {
+                            item.people.length > 0 ? <div className={styles.people}>
+                                {
+                                    item.people.map((person, idx)=> {
+                                        return <img key={"personImg-" + idx} src={person} title="person name"/>;
+                                    })
+                                }
+                            </div> : null
+                        }
+                        <Stock {...item.stock}/>
+                    </div>
                 </div>
             );
         });
 
         return (
             <section id={id} className={styles.trending}>
-                <h2>{title}</h2>
-                {_list}
+                <div className={styles.title}>{title}</div>
+                <div className={styles.list}>
+                    {_list}
+                </div>
             </section>
         )
     }

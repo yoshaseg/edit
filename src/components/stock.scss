@@ -1,0 +1,23 @@
+.stock {
+  font-size: .75em;
+  line-height: 100%;
+  > div {
+    display: table-cell;
+    &.companyName {
+      color: #898989;
+      padding-right: 4px;
+    }
+    p {
+      line-height: 100%;
+    }
+    .decrease {
+      color: red;
+    }
+    .increase {
+      color: green;
+    }
+    .currency {
+      font-size: .75em;
+    }
+  }
+}

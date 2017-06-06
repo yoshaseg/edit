@@ -16,6 +16,7 @@ const port = 3000;
 application.use('/public', express.static('build'));
 // レイアウト、モジュールの情報置き場
 application.use('/demo-api', express['static'](path.join(__dirname, '/public/demo-api')));
+application.use('/demo-asset', express['static'](path.join(__dirname, '/public/demo-asset')));
 
 application.get('*', handleRender);
 
@@ -38,7 +39,7 @@ function handleRender(req, res) {
 
             let tasks = components.map(component => {
                 return new Promise(function (resolve, reject) {
-                    store.dispatch(component.fetchData(resolve, reject));
+                    store.dispatch(component.fetchData(resolve, reject, renderProps));
                 });
             });
 

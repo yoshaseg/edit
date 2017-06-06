@@ -2,4 +2,37 @@ section {
   margin: 8px;
   padding: 8px;
   border: solid 1px #ccc;
+  .title {
+    font-weight: 600;
+    line-height: 250%;
+    //margin-bottom: 8px;
+    text-align: center;
+  }
+  h2 {
+    font-weight: 600;
+    line-height: 140%;
+    clear: both;
+    margin-bottom: 4px;
+    a {
+      font-weight: 600;
+    }
+  }
+  time {
+    font-size: .75em;
+    color: #898989;
+    float: right;
+  }
+  .people {
+    float: left;
+    img {
+      width: 24px;
+      height: auto;
+      margin-right: 4px;
+    }
+  }
+  .list {
+    > div {
+      margin-bottom: 16px;
+    }
+  }
 }

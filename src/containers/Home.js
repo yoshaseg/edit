@@ -13,14 +13,13 @@ import Trending from '../components/Trending';
  */
 const Home = CreateClass({
 
+    /**
+     * Homeコンテナは１ページのみのため毎回DidMountが呼ばれる
+     */
     componentDidMount: function () {
-        const {dispatch, latestList} = this.props;
-
+        const {dispatch} = this.props;
         // 最新記事
-        if (latestList.length == 0) {
-            dispatch(fetchArticles("latest"));
-        }
-
+        dispatch(fetchArticles("latest"));
     },
 
     render() {

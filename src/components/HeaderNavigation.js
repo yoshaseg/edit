@@ -26,7 +26,7 @@ const HeaderNavigation = CreateClass({
                     <div className={styles.brand}>
                         <Link to="/" onClick={(e)=> {
                             window.scrollTo(0, 0);
-                        }}>D</Link>
+                        }}>EDIT</Link>
                     </div>
                     <div className={styles.navWrapper}>
                         <div className={styles.nav}>
