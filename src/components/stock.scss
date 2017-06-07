@@ -1,6 +1,7 @@
 .stock {
   font-size: .75em;
   line-height: 100%;
+  text-align: right;
   > div {
     display: table-cell;
     &.companyName {
@@ -8,7 +9,7 @@
       padding-right: 4px;
     }
     p {
-      line-height: 100%;
+      line-height: 110%;
     }
     .decrease {
       color: red;

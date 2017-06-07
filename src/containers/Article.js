@@ -31,7 +31,7 @@ const Article = CreateClass({
                     <meta charSet="utf-8"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1"/>
                     <meta name="mobile-web-app-capable" content="yes"/>
-                    <title>{detail.title || ""}</title>
+                    <title>{detail.title}</title>
                 </Helmet>
                 {
                     nowDetailLoading == false ?
@@ -45,8 +45,9 @@ const Article = CreateClass({
                                     <div className={styles.people}>
                                         <p><i className="fa fa-link"/></p>
                                         {
-                                            detail.people.map(person=> {
-                                                return <img src={person} title="person name"/>;
+                                            detail.people.map((person, idx)=> {
+                                                return <img key={"detail_person_" + idx} src={person}
+                                                            title="person name"/>;
                                             })
                                         }
                                     </div> : null
@@ -82,7 +83,6 @@ Article.propTypes = {};
  */
 Article.fetchData = function (resolve, reject, ownProps) {
     const {params} = ownProps;
-    console.log("Article fetchData");
     return fetchArticleDetail(params.postname, resolve);
 
 };

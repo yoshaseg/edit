@@ -1,18 +1,11 @@
 import React from 'react';
 import CreateClass from 'create-react-class';
-import Helmet from 'react-helmet';
 
 const Foo = CreateClass({
 
     render() {
         return (
             <div>
-                <Helmet>
-                    <html lang="en"/>
-                    <meta charSet="utf-8"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                    <meta name="mobile-web-app-capable" content="yes"/>
-                </Helmet>
 
                 <h1>音声はIoT時代の鍵になる：Spotify</h1>
 

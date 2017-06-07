@@ -1,6 +1,5 @@
 import React from 'react';
 import CreateClass from 'create-react-class';
-import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 
 import {fetchArticles} from '../actions';
@@ -10,7 +9,6 @@ import Section from '../components/Section';
 const Category = CreateClass({
 
     componentDidMount() {
-        console.log("componentDidMount");
         const {dispatch, params} = this.props;
         // 最新記事
         dispatch(fetchArticles(params.category_slug));
@@ -27,12 +25,6 @@ const Category = CreateClass({
         const {params, latestList} = this.props;
         return (
             <div>
-                <Helmet>
-                    <html lang="ja_JP"/>
-                    <meta charSet="utf-8"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                    <meta name="mobile-web-app-capable" content="yes"/>
-                </Helmet>
                 <Section id="categoryList" title={params.category_slug} list={latestList}/>
             </div>
         );
@@ -53,7 +45,6 @@ Category.propTypes = {};
  */
 Category.fetchData = function (resolve, reject, ownProps) {
     const {params} = ownProps;
-    console.log("Category fetchData");
     return fetchArticles(params.category_slug, resolve);
 };
 

@@ -18,6 +18,7 @@ const Trending = CreateClass({
             return (
                 <div key={id + "-" + idx}>
                     <time dateTime={item.pubDate}>{item.pubDate}</time>
+                    <span className={styles.author}>Taro Yamada +</span>
                     <h2><Link to={item.href}>{item.title}</Link></h2>
                     <div style={{clear: "both"}}>
                         {

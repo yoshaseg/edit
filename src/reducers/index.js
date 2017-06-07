@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import {routerReducer} from 'react-router-redux';
 
+import header from './header';
 import detail from './detail';
 import nowDetailLoading from './nowDetailLoading';
 import latestList from './latestList';
@@ -10,6 +11,7 @@ import latestList from './latestList';
  */
 const AppReducers = combineReducers({
     routing: routerReducer,
+    header,
     detail,
     nowDetailLoading,
     latestList,

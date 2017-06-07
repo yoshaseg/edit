@@ -9,7 +9,7 @@ const Html = CreateClass({
     },
 
     render: function () {
-        const {markup, state, clientFile, store} = this.props;
+        const {header, markup, state, clientFile, store} = this.props;
 
         return (
             <html lang="ja">
@@ -17,10 +17,8 @@ const Html = CreateClass({
                 <meta charSet="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <meta name="mobile-web-app-capable" content="yes"/>
+                <title>{header.title}</title>
             </Helmet>
-            <head>
-                <meta charSet="utf-8"/>
-            </head>
             <body>
             <div id="app" dangerouslySetInnerHTML={{__html: markup}}></div>
             <script dangerouslySetInnerHTML={{__html: state}}></script>
@@ -35,7 +33,9 @@ const Html = CreateClass({
 Html.propTypes = {};
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        header: state.header,
+    }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

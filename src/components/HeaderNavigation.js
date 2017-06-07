@@ -10,6 +10,7 @@ import styles from './header-navigation.scss';
 const HeaderNavigation = CreateClass({
 
         render() {
+            const {detail} = this.props;
 
             let menu = [
                 <Link to="/">HOME</Link>,
@@ -21,12 +22,15 @@ const HeaderNavigation = CreateClass({
                 <Link to="/events">Events</Link>,
             ];
 
+            let brandLink = typeof detail.category_slug != "undefined" ? "/" + detail.category_slug : "/";
+            let brandLabel = typeof detail.category_slug != "undefined" ? detail.category_slug.toUpperCase() : "EDIT";
+
             return (
                 <div className={styles.headerNav}>
                     <div className={styles.brand}>
-                        <Link to="/" onClick={(e)=> {
+                        <Link to={brandLink} onClick={() => {
                             window.scrollTo(0, 0);
-                        }}>EDIT</Link>
+                        }}>{brandLabel}</Link>
                     </div>
                     <div className={styles.navWrapper}>
                         <div className={styles.nav}>
@@ -50,7 +54,9 @@ const HeaderNavigation = CreateClass({
 HeaderNavigation.propTypes = {};
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        detail: state.detail,
+    }
 };
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {}

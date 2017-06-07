@@ -3,11 +3,13 @@
 }
 
 .brand {
+  text-align: center;
   border-bottom: solid 1px #CCC;
   font-size: 1.4em;
   padding: 8px;
   position: fixed;
   margin-top: -36px;
+  box-sizing: border-box;
   width: 100%;
   max-width: calc(1000px - 16px);
   background: #FFF;
@@ -16,6 +18,7 @@
     text-decoration: none;
   }
 }
+
 
 .navWrapper {
   overflow: hidden;
